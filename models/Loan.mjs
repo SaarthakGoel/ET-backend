@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const InvestmentSchema = new mongoose.Schema({
+const LoanSchema = new mongoose.Schema({
   user : {
     type : mongoose.Schema.Types.ObjectId,
     required : true,
@@ -10,8 +10,8 @@ const InvestmentSchema = new mongoose.Schema({
     type : Number,
     required : true
   },
-  currentValue : {
-    type : Number,
+  lended : {
+    type : Boolean,
     required : true
   },
   title : {
@@ -24,4 +24,4 @@ const InvestmentSchema = new mongoose.Schema({
   }
 )
 
-export default mongoose.model('Investment' , InvestmentSchema);
+export default mongoose.model('Loan' , LoanSchema);
