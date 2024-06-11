@@ -12,17 +12,19 @@ router.post('/auth', loginLimiter, async (req, res) => {
   const foundUser = await User.findOne({ username }).exec()
   if (!foundUser) return res.status(401).json({ message: 'unauthorized' });
 
+  console.log(foundUser)
+
   const match = await bcrypt.compare(password, foundUser.password)
   if (!match) return res.status(401).json({ message: 'unauthorized' });
 
   const accessToken = jwt.sign(
-    { "username": foundUser.username },
+    { "userId": foundUser._id },
     process.env.ACCESS_TOKEN_SECRET,
     { expiresIn: '15s' }
   )
 
   const refreshToken = jwt.sign(
-    { "username": foundUser.username },
+    { "userId": foundUser._id },
     process.env.REFRESH_TOKEN_SECRET,
     { expiresIn: '7d' }
   )
@@ -50,12 +52,12 @@ router.get('/auth/refresh', async (req, res) => {
     process.env.REFRESH_TOKEN_SECRET,
     async (err, decoded) => {
       if (err) return res.status(403).json({ message: 'Forbidden' })
-      const foundUser = await User.findOne({ username: decoded.username }).exec()
+      const foundUser = await User.findOne({ _id : decoded.userId }).exec()
 
       if (!foundUser) return res.status(401).json({ message: 'Unauthorized' })
 
       const accessToken = jwt.sign(
-        { "username": foundUser.username },
+        { "userId": foundUser._id },
         process.env.ACCESS_TOKEN_SECRET,
         { expiresIn: '15s' }
       )
