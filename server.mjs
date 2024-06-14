@@ -20,7 +20,7 @@ const PORT = process.env.PORT || 3500;
 
 connectDB();
 
-app.use(cors());
+app.use(cors(corsOptions));
 
 app.use(cookieParser());
 
