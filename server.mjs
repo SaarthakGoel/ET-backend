@@ -9,11 +9,12 @@ import path from "path";
 import { fileURLToPath } from 'node:url';
 import routes from "./routes/index.mjs"
 
+configDotenv();
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
-configDotenv();
 
 const PORT = process.env.PORT || 3500;
 
